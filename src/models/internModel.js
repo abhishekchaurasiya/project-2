@@ -22,6 +22,7 @@ let InternSchema = new mongoose.Schema({
     },
     mobile: {
         type: Number,
+        minlength: 9,
         maxlength: 10,
         unique: true,
         required: "Mobile number is required"
