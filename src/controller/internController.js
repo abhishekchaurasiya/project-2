@@ -6,7 +6,6 @@ const internModel = require("../models/internModel");
 
 
 // This is all validation function and start is here
-
 let isValidRequestBodyData = function (requestBody) {
     return Object.keys(requestBody).length > 0;
 }
@@ -17,7 +16,7 @@ const isValidInterData = function (value) {
     return true;
 };
 
-const isValidOjectId = function (objectId) {
+const isValidObjectId = function (objectId) {
     return ObjectId.isValidInterData(objectId)
 }
 // Here Ends
@@ -56,6 +55,10 @@ const internDetails = async function (req, res) {
             return;
         };
 
+        if (!/^\d{10}$/.test(mobile)) {
+            res.status(400).send({ status: false, message: "Please provide valid mobile number" });
+            return;
+        }
 
         let isMobilelUsed = await internModel.findOne({ mobile });
         if (isMobilelUsed) {
@@ -76,13 +79,9 @@ const internDetails = async function (req, res) {
 
         let validCollege = await collegeModel.findOne({ name: collegeName });
         delete requestBody["collegeName"];  // here delete collegeName 
-        requestBody["collegeId"] = validCollege._id
-
-
-
+        requestBody["collegeId"] = validCollege._id;
 
         let data = await internModel.create(requestBody);
-
         res.status(201).send({ status: true, message: "Intern is created", data: data })
 
     } catch (error) {
@@ -94,10 +93,10 @@ const internDetails = async function (req, res) {
 let getInternDetails = async function (req, res) {
 
     try {
-
         let collegeName = req.query.collegeName;   // variable name collegeName es liye hai because collegeName present in query
 
         let allFilterData = {};
+
         let findCollegeData = await collegeModel.findOne({ name: collegeName });
         allFilterData["name"] = findCollegeData["name"];
         allFilterData["fullName"] = findCollegeData["fullName"];

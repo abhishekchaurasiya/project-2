@@ -57,6 +57,7 @@ let collegeName = async function (req, res) {
         let validLogoLink = await collegeModle.findOne({ logoLink });
         if (validLogoLink) {
             res.status(400).send({ status: false, message: "Please provide valid URL." })
+            return
         }
         // Validation is ends
 
@@ -68,6 +69,7 @@ let collegeName = async function (req, res) {
             res.status(400).send({ status: false, message: "" });
             return;
         }
+        
         res.status(201).send({ status: true, message: "College created successfully", data: createCollegeDetails })
 
     } catch (error) {
