@@ -9,7 +9,7 @@ const { internDetails , getInternDetails} = require("../controller/internControl
 
 router.post("/functionup/colleges", collegeName);
 
-router.post("/functionup/inters", internDetails);
+router.post("/functionup/interns", internDetails);
 
 router.get("/functionup/collegeDetails", getInternDetails)
 

@@ -31,6 +31,7 @@ const internDetails = async function (req, res) {
             res.status(400).send({ status: false, message: "Invalid request parameter. Please provide intern details" });
             return;
         }
+
         let { name, mobile, email, collegeName } = requestBody;
 
         // Validation is start 
@@ -78,6 +79,8 @@ const internDetails = async function (req, res) {
         };
 
         let validCollege = await collegeModel.findOne({ name: collegeName });
+        if (!validCollege) return res.status(404).send({ status: false, message: 'College name not found' });
+
         delete requestBody["collegeName"];  // here delete collegeName 
         requestBody["collegeId"] = validCollege._id;
 
@@ -95,14 +98,28 @@ let getInternDetails = async function (req, res) {
     try {
         let collegeName = req.query.collegeName;   // variable name collegeName es liye hai because collegeName present in query
 
+        if (!isValidInterData(collegeName)) {
+            res.status(400).send({ status: false, message: 'kindly input the query parameter' });
+            return;
+        }
+
         let allFilterData = {};
 
         let findCollegeData = await collegeModel.findOne({ name: collegeName });
+        if (!findCollegeData) {
+            return res.status(404).send({ status: false, message: 'college has not been registered yet' })
+        };
+
         allFilterData["name"] = findCollegeData["name"];
         allFilterData["fullName"] = findCollegeData["fullName"];
         allFilterData["logoLink"] = findCollegeData["logoLink"];
 
         let findIntern = await internModel.find({ collegeId: findCollegeData }).select({ name: true, email: true, mobile: true });  // FindOut collegeId in collegeModel
+
+        if (findIntern.length === 0) {
+            res.status(404).send({ status: false, message: `No students have applied for internship from ${collegeName} college` });
+            return;
+        }
 
         allFilterData["interest"] = findIntern; // Here create a new Object key
 

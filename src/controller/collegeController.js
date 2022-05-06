@@ -23,6 +23,7 @@ let collegeName = async function (req, res) {
             return;
         }
 
+        // Extract in object
         let { name, fullName, logoLink, isDeleted } = requestBody;
 
         if (!isValidData(name)) {
@@ -66,7 +67,7 @@ let collegeName = async function (req, res) {
         let createCollegeDetails = await collegeModle.create(collegeData)
 
         if (!createCollegeDetails) {
-            res.status(400).send({ status: false, message: "" });
+            res.status(400).send({ status: false, message: "Please inter the valid college details" });
             return;
         }
         
