@@ -24,7 +24,7 @@ let collegeName = async function (req, res) {
         }
 
         // Extract in object
-        let { name, fullName, logoLink, isDeleted } = requestBody;
+        let { name, fullName, logoLink } = requestBody;
 
         if (!isValidData(name)) {
             res.status(400).send({ status: false, message: "Name is required." });
@@ -38,10 +38,21 @@ let collegeName = async function (req, res) {
             res.status(400).send({ status: false, message: "Logo link is required." });
             return;
         }
-        if (!isValidData(isDeleted)) {
-            res.status(400).send({ status: false, message: "Is deleted is required." });
-            return;
+
+        if (!(/\d/).test(name)) {
+            res.status(400).send({ status: false, message: "Please provide valid string" })
+            return
         }
+        if (!(/\d/).test(fullName)) {
+            res.status(400).send({ status: false, message: "Please provide valid string" })
+            return
+        }
+
+        if (!(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/).test(logoLink)) {
+            res.status(400).send({ status: false, message: "Please provide valid link" })
+            return
+        };
+
 
         let nameAllReadyUsed = await collegeModle.findOne({ name });
         if (nameAllReadyUsed) {
@@ -55,6 +66,7 @@ let collegeName = async function (req, res) {
             return;
         };
 
+        // Allready link is store
         let validLogoLink = await collegeModle.findOne({ logoLink });
         if (validLogoLink) {
             res.status(400).send({ status: false, message: "Please provide valid URL." })
@@ -63,14 +75,14 @@ let collegeName = async function (req, res) {
         // Validation is ends
 
 
-        let collegeData = { name, fullName, logoLink, isDeleted };
+        let collegeData = { name, fullName, logoLink };
         let createCollegeDetails = await collegeModle.create(collegeData)
 
         if (!createCollegeDetails) {
             res.status(400).send({ status: false, message: "Please inter the valid college details" });
             return;
         }
-        
+
         res.status(201).send({ status: true, message: "College created successfully", data: createCollegeDetails })
 
     } catch (error) {
