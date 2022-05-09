@@ -19,7 +19,7 @@ let collegeName = async function (req, res) {
         // Here is validation is start
 
         if (!isValidRequestBodyData(requestBody)) {
-            res.status(400).send({ status: false, message: "Invalid request parameter. Please provide author details" });
+            res.status(400).send({ status: false, message: "Invalid request parameter. Please provide college details" });
             return;
         }
 
@@ -39,11 +39,7 @@ let collegeName = async function (req, res) {
             return;
         }
 
-        if (!(/\d/).test(name)) {
-            res.status(400).send({ status: false, message: "Please provide valid string" })
-            return
-        }
-        if (!(/\d/).test(fullName)) {
+        if ((/\d/).test(name)) {
             res.status(400).send({ status: false, message: "Please provide valid string" })
             return
         }

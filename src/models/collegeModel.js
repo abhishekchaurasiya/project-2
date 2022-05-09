@@ -1,6 +1,4 @@
 let mongoose = require('mongoose');
-let validator = require('validator');
-
 
 let CollegeSchema = new mongoose.Schema({
     name: {
@@ -23,4 +21,4 @@ let CollegeSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-module.exports = mongoose.model("College", CollegeSchema);  
+module.exports = mongoose.model("College", CollegeSchema);   // colleges

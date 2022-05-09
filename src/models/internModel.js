@@ -1,6 +1,5 @@
 let mongoose = require('mongoose');
 let ObjectId = mongoose.Schema.Types.ObjectId;
-let validator = require('validator');
 
 
 let InternSchema = new mongoose.Schema({
@@ -12,17 +11,10 @@ let InternSchema = new mongoose.Schema({
         type: String,
         unique: true,
         trim: true,
-        lowercase: true,
-        validate: {
-            validator: email => {
-                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-            }, message: 'Please fill the valid email address.',
-            isAsnyc: true
-        }
+        lowercase: true
     },
     mobile: {
         type: String,
-        match: /^\d{10}$/,
         unique: true,
         required: "Mobile number is required"
 

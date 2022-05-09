@@ -72,7 +72,7 @@ const internDetails = async function (req, res) {
             return
         };
 
-        let isEmailUsed = await internModel.findOne({ email });
+        let isEmailUsed = await internModel.findOne({ email });  // email:email
         if (isEmailUsed) {
             res.status(400).send({ status: false, message: `Try another email ${isEmailUsed["email"]} is already used.` });
             return;
@@ -93,7 +93,7 @@ const internDetails = async function (req, res) {
 };
 
 
-let getInternDetails = async function (req, res) {
+let getCollegeDetails = async function (req, res) {
 
     try {
         let collegeName = req.query.collegeName;   // variable name collegeName es liye hai because collegeName present in query
@@ -132,5 +132,4 @@ let getInternDetails = async function (req, res) {
 
 
 
-
-module.exports = { internDetails, getInternDetails }
+module.exports = { internDetails, getCollegeDetails }

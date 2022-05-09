@@ -12,7 +12,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 
 mongoose.connect("mongodb+srv://mongoabhishek:JGETcKMFq8k1RFrV@cluster0.nn6fz.mongodb.net/Project2-Collage?retryWrites=true&w=majority", { useNewUrlParser: true })
     .then(() => console.log('mongo is connected'))
-    .catch(error => console.log(error))
+    .catch(error => console.log(error));
 
 app.use('/', route);
 
